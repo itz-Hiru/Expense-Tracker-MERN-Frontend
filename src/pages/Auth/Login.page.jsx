@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import AuthLayout from "../../components/layouts/AuthLayout.layout";
-import InputLayout from "../../components/inputs/InputLayout.component";
+import { UserContext } from "../../context/UserContext.context";
 import { validateEmail } from "../../utils/helper.util";
 import axiosInstance from "../../utils/axiosInstance.util";
 import { API_PATHS } from "../../utils/apiPath.util";
+import AuthLayout from "../../components/layouts/AuthLayout.layout";
+import InputLayout from "../../components/inputs/InputLayout.component";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+
+  const { updateUser } = useContext(UserContext);
 
   const navigate = useNavigate("");
 
@@ -36,13 +39,14 @@ const Login = () => {
 
       if (token) {
         localStorage.setItem("token", token);
+        updateUser(user);
         navigate("/dashboard");
       }
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
       } else {
-        setError("Something went wrong. Please try again!")
+        setError("Something went wrong. Please try again!");
       }
     }
   };
