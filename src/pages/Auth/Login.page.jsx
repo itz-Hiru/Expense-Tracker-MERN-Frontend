@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/layouts/AuthLayout.layout";
-import InputLayout from "../../components/inputs/InputLayout.layout";
+import InputLayout from "../../components/inputs/InputLayout.component";
 import { validateEmail } from "../../utils/helper.util";
 
 const Login = () => {
