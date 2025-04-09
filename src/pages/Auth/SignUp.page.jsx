@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout.layout";
 import { Link, useNavigate } from "react-router-dom";
-import Input from "../../components/inputs/InputLayout.component";
-import ProfilePhotoSelector from "../../components/inputs/ProfilePhotoSelector.component";
+import { UserContext } from "../../context/UserContext.context";
 import { validateEmail } from "../../utils/helper.util";
 import { validatePasswordLength } from "../../utils/helper.util";
+import axiosInstance from "../../utils/axiosInstance.util";
+import uploadImage from "../../utils/uploadImage.util";
+import { API_PATHS } from "../../utils/apiPath.util";
+import Input from "../../components/inputs/InputLayout.component";
+import ProfilePhotoSelector from "../../components/inputs/ProfilePhotoSelector.component";
 
 const SignUp = () => {
   const [profilePicture, setProfilePicture] = useState(null);
@@ -13,6 +17,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSignUpForm = async (e) => {
@@ -31,10 +36,38 @@ const SignUp = () => {
 
     if (!validatePasswordLength(password)) {
       setError("Password should be minimum 8 characters!");
-      return
+      return;
     }
 
     setError("");
+
+    if (profilePicture) {
+      const imageUploadRes = await uploadImage(profilePicture);
+      profileImageURL = imageUploadRes.imageURL || ""; 
+    }
+
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        fullName,
+        email,
+        password,
+        profileImageURL
+      });
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again!");
+      }
+    }
   };
   return (
     <AuthLayout>
