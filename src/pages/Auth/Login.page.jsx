@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthLayout from "../../components/layouts/AuthLayout.layout";
 import InputLayout from "../../components/inputs/InputLayout.component";
 import { validateEmail } from "../../utils/helper.util";
+import axiosInstance from "../../utils/axiosInstance.util";
+import { API_PATHS } from "../../utils/apiPath.util";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +25,26 @@ const Login = () => {
       return;
     }
     setError("");
+
+    try {
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, {
+        email,
+        password,
+      });
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again!")
+      }
+    }
   };
 
   return (
