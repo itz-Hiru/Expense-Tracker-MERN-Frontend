@@ -12,8 +12,8 @@ import CustomLegend from "./CustomLegend.component";
 
 const CustomPieChart = ({
   data,
-  label,
   totalAmount,
+  label,
   colors,
   showTextAnchor,
 }) => {
@@ -29,6 +29,34 @@ const CustomPieChart = ({
           outerRadius={130}
           innerRadius={100}
           labelLine={false}
+          label={
+            showTextAnchor
+              ? ({ cx, cy }) => (
+                  <>
+                    <text
+                      x={cx}
+                      y={cy - 10}
+                      textAnchor="middle"
+                      dominantBaseline="central"
+                      fontSize="14px"
+                      fill="#333"
+                    >
+                      {label}
+                    </text>
+                    <text
+                      x={cx}
+                      y={cy + 15}
+                      textAnchor="middle"
+                      fontSize="18px"
+                      fontWeight="400"
+                      fill="#333"
+                    >
+                      {totalAmount}
+                    </text>
+                  </>
+                )
+              : null
+          }
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
@@ -36,31 +64,6 @@ const CustomPieChart = ({
         </Pie>
         <Tooltip content={CustomTooltip} />
         <Legend content={CustomLegend} />
-        {showTextAnchor && (
-          <>
-            <text
-              x="50%"
-              y="50%"
-              dy={25}
-              textAnchor="middle"
-              fill="#666"
-              fontSize="14px"
-            >
-              {label}
-            </text>
-            <text
-              x="50%"
-              y="50%"
-              dy={8}
-              textAnchor="middle"
-              fill="#333"
-              fontSize="24px"
-              fontWeight="semi-bold"
-            >
-              {totalAmount}
-            </text>
-          </>
-        )}
       </PieChart>
     </ResponsiveContainer>
   );
