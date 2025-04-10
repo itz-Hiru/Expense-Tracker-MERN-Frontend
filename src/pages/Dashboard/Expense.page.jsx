@@ -1,8 +1,15 @@
 import React from 'react'
+import DashboardLayout from "../../components/layouts/DashboardLayout.layout"
+import { useUserAuth } from '../../hooks/useUserAuth.hook';
 
 const Expense = () => {
+  useUserAuth();
   return (
-    <div>Expense.page</div>
+    <DashboardLayout activeMenu="Dashboard">
+      <div className="my-5 mx-auto">
+
+      </div>
+    </DashboardLayout>
   )
 }
 
