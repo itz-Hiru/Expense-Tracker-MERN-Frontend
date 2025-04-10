@@ -6,6 +6,7 @@ import { API_PATHS } from "../../utils/apiPath.util";
 import { addThousandsSeparator } from "../../utils/helper.util";
 import DashboardLayout from "../../components/layouts/DashboardLayout.layout";
 import InfoCard from "../../components/cards/InfoCard.card";
+import RecentTransactions from "../../components/dashboard/RecentTransactions.dashboard";
 import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
 import { IoMdCard } from "react-icons/io";
 
@@ -61,6 +62,12 @@ const Home = () => {
             label="Total Expense"
             value={addThousandsSeparator(dashboardData?.totalExpenses || 0)}
             color="bg-red-500"
+          />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <RecentTransactions
+            transactions={dashboardData?.recentTransactions}
+            onSeeMore={() => navigate("/expense")}
           />
         </div>
       </div>
