@@ -4,10 +4,10 @@ import { useUserAuth } from "../../hooks/useUserAuth.hook";
 import axiosInstance from "../../utils/axiosInstance.util";
 import { API_PATHS } from "../../utils/apiPath.util";
 import { addThousandsSeparator } from "../../utils/helper.util";
-import DashboardLayout from "../../components/layouts/DashboardLayout.layout";
-import InfoCard from "../../components/cards/InfoCard.card";
-import RecentTransactions from "../../components/dashboard/RecentTransactions.dashboard";
-import FinanceOverview from "../../components/dashboard/FinanceOverview.dashboard";
+import DashboardLayout from "../../components/layouts/DashboardLayout.component";
+import InfoCard from "../../components/cards/InfoCard.component";
+import RecentTransactions from "../../components/dashboard/RecentTransactions.component";
+import FinanceOverview from "../../components/dashboard/FinanceOverview.component";
 import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
 import { IoMdCard } from "react-icons/io";
 

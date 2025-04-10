@@ -1,5 +1,5 @@
 import React from 'react'
-import DashboardLayout from "../../components/layouts/DashboardLayout.layout"
+import DashboardLayout from "../../components/layouts/DashboardLayout.component"
 import { useUserAuth } from '../../hooks/useUserAuth.hook';
 
 const Expense = () => {
