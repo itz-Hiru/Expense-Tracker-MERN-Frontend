@@ -7,6 +7,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import CustomTooltip from "./CustomTooltip.component";
 
 const CustomPieChart = ({
   data,
@@ -32,7 +33,7 @@ const CustomPieChart = ({
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>
-        <Tooltip />
+        <Tooltip content={CustomTooltip} />
         <Legend />
         {showTextAnchor && (
           <>
