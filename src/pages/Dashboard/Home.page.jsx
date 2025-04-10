@@ -7,6 +7,7 @@ import { addThousandsSeparator } from "../../utils/helper.util";
 import DashboardLayout from "../../components/layouts/DashboardLayout.layout";
 import InfoCard from "../../components/cards/InfoCard.card";
 import RecentTransactions from "../../components/dashboard/RecentTransactions.dashboard";
+import FinanceOverview from "../../components/dashboard/FinanceOverview.dashboard";
 import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
 import { IoMdCard } from "react-icons/io";
 
@@ -68,6 +69,11 @@ const Home = () => {
           <RecentTransactions
             transactions={dashboardData?.recentTransactions}
             onSeeMore={() => navigate("/expense")}
+          />
+          <FinanceOverview
+            totalBalance={dashboardData?.totalBalance || 0}
+            totalIncomes={dashboardData?.totalIncomes || 0}
+            totalExpenses={dashboardData?.totalExpenses || 0}
           />
         </div>
       </div>
