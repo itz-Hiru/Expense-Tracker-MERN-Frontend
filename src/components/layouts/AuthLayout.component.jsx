@@ -1,6 +1,6 @@
 import React from "react";
-import CARD_2 from "../../assets/images/card_2.png";
 import { LuTrendingUpDown } from "react-icons/lu";
+import WELCOME_CARD from "../../assets/welcome.png"
 
 const StatsInfoCard = ({ icon, label, value, color }) => {
   return (
@@ -38,7 +38,7 @@ const AuthLayout = ({ children }) => {
           />
         </div>
         <img
-          src={CARD_2}
+          src={WELCOME_CARD}
           alt=""
           className="w-64 lg:w-[90%] absolute bottom-10 shadow-lg shadow-blue-400/15"
         />
