@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import DashboardLayout from "../../components/layouts/DashboardLayout.component";
-import IncomeOverview from "../../components/income/IncomeOverview.component";
-import Modal from "../../components/Modal.component"
-import AddIncomeForm from "../../components/income/AddIncomeForm.component";
+import toast from "react-hot-toast";
 import { useUserAuth } from "../../hooks/useUserAuth.hook";
 import axiosInstance from "../../utils/axiosInstance.util";
 import { API_PATHS } from "../../utils/apiPath.util";
+import DashboardLayout from "../../components/layouts/DashboardLayout.component";
+import IncomeOverview from "../../components/income/IncomeOverview.component";
+import Modal from "../../components/Modal.component";
+import AddIncomeForm from "../../components/income/AddIncomeForm.component";
 
 const Income = () => {
   useUserAuth();
@@ -36,7 +37,40 @@ const Income = () => {
     }
   };
 
-  const handleAddIncome = async (income) => {};
+  const handleAddIncome = async (income) => {
+    const { icon, source, amount, date } = income;
+
+    if (!source.trim()) {
+      toast.error("Income source required!");
+      return;
+    }
+    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+      toast.error("Amount should be valid!");
+      return;
+    }
+    if (!date) {
+      toast.error("Date is mandatory!");
+      return;
+    }
+
+    try {
+      await axiosInstance.post(API_PATHS.INCOME.ADD_INCOME, {
+        source,
+        amount,
+        date,
+        icon,
+      });
+
+      setOpenAddIncomeModal(false);
+      toast.success("Income added successfully");
+      fetchIncomeDetails();
+    } catch (error) {
+      console.error(
+        "Error while adding income ",
+        error.response?.data?.message || error.message
+      );
+    }
+  };
 
   const deleteIncome = async (id) => {};
 
@@ -59,7 +93,7 @@ const Income = () => {
             />
           </div>
         </div>
-        <Modal 
+        <Modal
           isOpen={openAddIncomeModal}
           onClose={() => setOpenAddIncomeModal(false)}
           title="Add Income"

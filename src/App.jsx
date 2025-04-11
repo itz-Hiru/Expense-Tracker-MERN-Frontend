@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+import { Toaster } from "react-hot-toast"
 import UserProvider from "./context/UserContext.context";
 import Login from "./pages/Auth/Login.page";
 import SignUp from "./pages/Auth/SignUp.page";
@@ -36,6 +37,14 @@ const App = () => {
           </Routes>
         </Router>
       </div>
+      <Toaster
+        toastOptions={{
+          className: "",
+          style: {
+            fontSize: "13px",
+          },
+        }}
+      />
     </UserProvider>
   );
 };
