@@ -22,6 +22,6 @@ export const API_PATHS = {
     ADD_EXPENSE: "/expense/add",
     GET_ALL_EXPENSE: "/expense/get",
     DELETE_EXPENSE: (expenseID) => `/expense/delete/${expenseID}`,
-    DOWNLOAD_EXPENSE_DATE: "/expense/get/download",
+    DOWNLOAD_EXPENSE_DETAILS: "/expense/get/download",
   },
 };
