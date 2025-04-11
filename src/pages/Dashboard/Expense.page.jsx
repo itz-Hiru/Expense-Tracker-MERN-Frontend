@@ -89,7 +89,39 @@ const Expense = () => {
     }
   };
 
-  const handleDownloadExpenseDetails = async () => {};
+  const handleDownloadExpenseDetails = async () => {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.EXPENSE.DOWNLOAD_EXPENSE_DETAILS,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const options = {
+        suggestedName: "Expense details.xlsx",
+        types: [
+          {
+            description: "Excel file",
+            accept: {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                [".xlsx"],
+            },
+          },
+        ],
+      };
+
+      const handle = await window.showSaveFilePicker(options);
+      const writable = await handle.createWritable();
+      await writable.write(response.data);
+      await writable.close();
+
+      toast.success("Expense details downloaded.");
+    } catch (err) {
+      console.error("Download failed:", err);
+      toast.error("Failed to download Expense details! Please try again.");
+    }
+  };
 
   useEffect(() => {
     fetchExpenseDetails();

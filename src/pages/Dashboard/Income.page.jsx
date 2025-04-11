@@ -89,7 +89,39 @@ const Income = () => {
     }
   };
 
-  const handleDownloadIncomeDetails = async () => {};
+  const handleDownloadIncomeDetails = async () => {
+    try {
+      const response = await axiosInstance.get(
+        API_PATHS.INCOME.DOWNLOAD_INCOME_DETAILS,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const options = {
+        suggestedName: "Income details.xlsx",
+        types: [
+          {
+            description: "Excel file",
+            accept: {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                [".xlsx"],
+            },
+          },
+        ],
+      };
+
+      const handle = await window.showSaveFilePicker(options);
+      const writable = await handle.createWritable();
+      await writable.write(response.data);
+      await writable.close();
+
+      toast.success("Income details downloaded.");
+    } catch (err) {
+      console.error("Download failed:", err);
+      toast.error("Failed to download Income details! Please try again.");
+    }
+  };
 
   useEffect(() => {
     fetchIncomeDetails();
