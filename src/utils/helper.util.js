@@ -52,3 +52,5 @@ export const prepareIncomeBarChartData = (data = []) => {
   }));
   return chartData;
 };
+
+export const prepareExpenseLineChartData = (data =[]) => {};
