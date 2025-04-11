@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
 import CustomPieChart from "../charts/CustomPieChart.component";
 
-const COLORS = ["#875CF5", "#FA2C37", "#FF6900", "#4F39F6"]
+const COLORS = ["#875CF5", "#FA2C37", "#FF6900", "#4F39F6"];
 
 const RecentIncomeWithChart = ({ data, totalIncomes }) => {
   const [chartData, setChartData] = useState([]);
 
   const prepareChartData = () => {
-    const dataArray = data?.map((item) => ({
-      name: item?.source,
-      amount: item?.amount,
+    const aggregated = {};
+
+    data?.forEach((item) => {
+      const source = item?.source;
+      const amount = item?.amount || 0;
+
+      if (aggregated[source]) {
+        aggregated[source] += amount;
+      } else {
+        aggregated[source] = amount;
+      }
+    });
+
+    const dataArray = Object.keys(aggregated).map((source) => ({
+      name: source,
+      amount: aggregated[source],
     }));
 
     setChartData(dataArray);
@@ -17,7 +30,6 @@ const RecentIncomeWithChart = ({ data, totalIncomes }) => {
 
   useEffect(() => {
     prepareChartData();
-    return () => {};
   }, [data]);
 
   return (
